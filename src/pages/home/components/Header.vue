@@ -1,16 +1,16 @@
 <template>
-	<div class="container">
-    <nav class="navbar">
+	<div>
+    <nav class="navbar-self">
       <div class="title-symbol">
         <span class="iconfont">&#xe614;</span>
       </div>
       <div class="title-title">
         <span>Vxlan Controller</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" @click="changeFuncContent">
         <span>Topology View</span>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" @click="changeFuncContent">
         <span>Tunnel List</span>
       </div>
     </nav>
@@ -22,16 +22,21 @@
         name: 'Header',
         data() {
             return {}
+        },
+        methods:{
+          changeFuncContent:function (e) {
+            this.$emit('changeFuncContent',e.target.innerHTML);
+          }
         }
+
     }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .navbar{
+  .navbar-self{
     /*使导航栏的位置固定，不以滚动条变化而变化*/
     display: flex;
-    position: fixed;
     overflow: hidden;
     top: 0;
     z-index: 1;

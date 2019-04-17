@@ -5,8 +5,12 @@
 </template>
 
 <script>
+import HomeHeader from './pages/home/components/Header'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    HomeHeader
+  }
 }
 </script>
 
