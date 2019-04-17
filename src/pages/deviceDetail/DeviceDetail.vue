@@ -1,19 +1,24 @@
 <template>
 	<div>
     <device-header></device-header>
+    <device-content></device-content>
 	</div>
 </template>
 
 <script>
   import DeviceHeader from './components/Header'
+  import DeviceContent from './components/Content'
     export default {
       name: 'DeviceDetail',
       components:{
-        DeviceHeader
+        DeviceHeader,
+        DeviceContent
       },
         data() {
-            return {}
-        }
+            return {
+
+            }
+        },
     }
 </script>
 

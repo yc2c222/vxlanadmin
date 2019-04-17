@@ -5,7 +5,7 @@
         Device {{item.id}}<i class="el-icon-caret-right el-icon--right"></i>
       </el-button>
       <el-dropdown-menu slot="dropdown" class="dropdown-menu">
-        <el-dropdown-item class="dropdown-item" command="a">Device Info</el-dropdown-item>
+        <el-dropdown-item class="dropdown-item" :command="item.id">Device Info</el-dropdown-item>
         <el-dropdown-item class="dropdown-item">Tunnel Config</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -23,8 +23,8 @@
       };
     },
     methods: {
-      handleCommand(command) {
-        alert(command)
+      handleCommand(id) {
+        this.$router.push({path:'/deviceList/'+id})
       }
     },
   }

@@ -7,6 +7,9 @@
         <div class="title-title">
           <span>Device Detail</span>
         </div>
+        <router-link tag="div" to="/" class="title-back">
+          <span class="iconfont">&#xe606;</span>
+        </router-link>
       </nav>
     </div>
 </template>
@@ -36,22 +39,38 @@
 
   .title-symbol{
     line-height: .8rem;
-    padding-top: .1rem;
-    margin-right: .3rem;
-    margin-left: .2rem;
+    padding-top: .2rem;
+    margin-right: .4rem;
+    margin-left: .4rem;
   }
 
   .title-symbol .iconfont{
-    font-size: .8rem;
+    font-size: 1rem;
     color: #ffffff;
   }
 
   .title-title{
     line-height: 1rem;
-    color:deepskyblue;
+    color:#00e9ff;
     font-size: .7rem;
     font-style: italic;
     margin-right: 2rem;
+  }
+
+  .title-back{
+    position: absolute;
+    right: .5rem;
+  }
+
+
+  .title-back .iconfont{
+    font-size: .8rem;
+    color: #ffffff;
+  }
+
+  .title-back .iconfont:hover{
+    font-weight: bold;
+    cursor: pointer;
   }
 
 </style>

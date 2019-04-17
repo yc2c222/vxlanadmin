@@ -49,7 +49,8 @@
   .title-symbol{
     line-height: .8rem;
     padding-top: .1rem;
-    margin-right: .1rem;
+    margin-left: .2rem;
+    margin-right: .2rem;
   }
 
   .title-symbol .iconfont{
@@ -59,7 +60,7 @@
 
   .title-title{
     line-height: 1rem;
-    color:deepskyblue;
+    color:#00e9ff;
     font-size: .7rem;
     font-style: italic;
     margin-right: 2rem;

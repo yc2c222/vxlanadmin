@@ -41,6 +41,9 @@
         axios.get('/api/getinfo.php',{params:{tablename:'DeviceInfo'}})
           .then(res => {
             this.deviceList = res.data;
+            //将deviceList 存入 localstorage 中
+            sessionStorage.setItem('deviceList', JSON.stringify(this.deviceList));
+            // console.log(JSON.parse(localStorage.getItem('deviceList'))[0]) 从localstorage中获取
           })
       }
     },

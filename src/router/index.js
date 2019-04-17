@@ -14,7 +14,7 @@ export default new Router({
       component:Home
     },
     {
-      path:'/deviceList',
+      path:'/deviceList/:id',
       name:'DeviceDetail',
       component:DeviceDetail
     }
