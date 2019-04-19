@@ -35,23 +35,26 @@
   .device-group{
     display: flex;
     flex-direction: column;
+    margin-top: .4rem;
   }
 
   .el-dropdown{
     margin-left: .1rem;
-    margin-top: .2rem;
+    margin-top: .3rem;
   }
   .el-btn{
     width: 2.5rem;
     padding: .2rem .32rem;
     font-size: .35rem;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.7);
     border: rgba(0,0,0,0.3);
   }
 
   .el-btn:hover{
     /*color: skyblue;*/
-    background-color: rgba(0,0,0,0.6);
+    background-color: steelblue;
+    font-weight: bold;
+    transition-duration: .2s;
   }
 
   .dropdown-menu{

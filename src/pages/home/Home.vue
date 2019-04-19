@@ -7,7 +7,7 @@
       </div>
       <div class="function-area">
         <topology-view v-show="isDisplay"></topology-view>
-        <tunnel-list v-show="!isDisplay"></tunnel-list>
+        <tunnel-list v-show="!isDisplay" :tableData="tunnelList"></tunnel-list>
       </div>
     </div>
 	</div>
@@ -30,7 +30,8 @@
       data() {
           return {
             isDisplay:true,
-            deviceList:[]
+            deviceList:[],
+            tunnelList:[]
           }
       },
     methods:{
@@ -45,10 +46,20 @@
             sessionStorage.setItem('deviceList', JSON.stringify(this.deviceList));
             // console.log(JSON.parse(localStorage.getItem('deviceList'))[0]) 从localstorage中获取
           })
+      },
+      getTunnelList () {
+        axios.get('/api/getinfo.php',{params:{tablename:'TunnleInfo'}})
+          .then(res => {
+            this.tunnelList = res.data;
+          })
       }
     },
-    mounted () {
+    created () {
         this.getDeviceInfo();
+        this.getTunnelList();
+    },
+    watch:{
+
     }
 
   }
