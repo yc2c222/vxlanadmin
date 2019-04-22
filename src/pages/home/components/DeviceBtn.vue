@@ -5,8 +5,8 @@
         Device {{item.id}}<i class="el-icon-caret-right el-icon--right"></i>
       </el-button>
       <el-dropdown-menu slot="dropdown" class="dropdown-menu">
-        <el-dropdown-item class="dropdown-item" :command="item.id">Device Info</el-dropdown-item>
-        <el-dropdown-item class="dropdown-item">Tunnel Config</el-dropdown-item>
+        <el-dropdown-item class="dropdown-item" :command="[item.id,'DeviceInfo']">Device Info</el-dropdown-item>
+        <el-dropdown-item class="dropdown-item" :command="[item.id,'TunnelConfig']">Tunnel Config</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
 	</div>
@@ -24,7 +24,10 @@
     },
     methods: {
       handleCommand(id) {
-        this.$router.push({path:'/deviceList/'+id})
+        if (id[1] === 'DeviceInfo')
+          this.$router.push({path:'/deviceList/'+id[0]});
+        else if (id[1] === 'TunnelConfig')
+          this.$router.push({path:'/tunnelConfig/'+id[0]});
       }
     },
   }
@@ -46,15 +49,17 @@
     width: 2.5rem;
     padding: .2rem .32rem;
     font-size: .35rem;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.72);
     border: rgba(0,0,0,0.3);
+    font-weight: 500 !important;
   }
 
   .el-btn:hover{
     /*color: skyblue;*/
     background-color: steelblue;
-    font-weight: bold;
-    transition-duration: .2s;
+    font-weight: 600 !important;
+    -webkit-transition: all 0.25s linear;
+    transition: all 0.25s linear;
   }
 
   .dropdown-menu{

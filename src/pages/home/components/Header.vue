@@ -78,5 +78,7 @@
     color: lightskyblue;
     cursor: pointer;
     box-shadow: .1rem .1rem .05rem .01rem #141212;
+    -webkit-transition:all 0.25s linear;
+    transition: all 0.25s linear;
   }
 </style>

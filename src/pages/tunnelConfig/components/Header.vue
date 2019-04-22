@@ -1,26 +1,26 @@
 <template>
-    <div>
-      <nav class="navbar-self">
-        <div class="title-symbol">
-          <span class="iconfont">&#xe652;</span>
-        </div>
-        <div class="title-title">
-          <span>Device Detail</span>
-        </div>
-        <router-link tag="div" to="/" class="title-back">
-          <span class="iconfont">&#xe606;</span>
-        </router-link>
-      </nav>
-    </div>
+  <div>
+    <nav class="navbar-self">
+      <div class="title-symbol">
+        <span class="iconfont">&#xe60e;</span>
+      </div>
+      <div class="title-title">
+        <span>Tunnel Config</span>
+      </div>
+      <router-link tag="div" to="/" class="title-back">
+        <span class="iconfont">&#xe606;</span>
+      </router-link>
+    </nav>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: 'Header',
-        data() {
-            return {}
-        }
+  export default {
+    name: 'TunnelHeader',
+    data() {
+      return {}
     }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -69,9 +69,12 @@
   }
 
   .title-back .iconfont:hover{
+    transition-duration: .1s;
     font-weight: bolder;
     cursor: pointer;
     color: powderblue;
+    -webkit-transition: all 0.15s linear;
+    transition: all 0.15s linear;
   }
 
 </style>
