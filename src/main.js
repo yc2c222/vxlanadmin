@@ -19,6 +19,11 @@ import './assets/styles/iconfont.css'
 //引入 ElementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+//jquery-confirm
+import 'jquery-confirm/css/jquery-confirm.css'
+import 'jquery-confirm/dist/jquery-confirm.min.css'
+import 'jquery-confirm/dist/jquery-confirm.min'
+//
 
 Vue.use(ElementUI);
 Vue.config.productionTip = false;

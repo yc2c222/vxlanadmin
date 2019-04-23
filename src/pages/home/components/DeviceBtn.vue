@@ -57,7 +57,6 @@
   .el-btn:hover{
     /*color: skyblue;*/
     background-color: steelblue;
-    font-weight: 600 !important;
     -webkit-transition: all 0.25s linear;
     transition: all 0.25s linear;
   }

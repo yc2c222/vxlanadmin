@@ -7,7 +7,7 @@
       </div>
       <div class="function-area">
         <topology-view v-show="isDisplay"></topology-view>
-        <tunnel-list v-show="!isDisplay" :tableData="tunnelList"></tunnel-list>
+        <tunnel-list v-show="!isDisplay" :tableData="tunnelList" @upDateList="upDateList"></tunnel-list>
       </div>
     </div>
 	</div>
@@ -38,6 +38,9 @@
       changeDisplay (value) {
         this.isDisplay = value === 'Topology View';
       },
+      upDateList () {
+        this.getTunnelList();
+      },
       getDeviceInfo () {
         axios.get('/api/getinfo.php',{params:{tablename:'DeviceInfo'}})
           .then(res => {
@@ -51,6 +54,7 @@
         axios.get('/api/getinfo.php',{params:{tablename:'TunnleInfo'}})
           .then(res => {
             this.tunnelList = res.data;
+            sessionStorage.setItem('tunnelList',JSON.stringify(this.tunnelList));
           })
       }
     },

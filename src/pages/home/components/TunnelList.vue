@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="table">
     <el-table
       :data="filterData"
       style="width: 99%"
@@ -62,10 +62,13 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="alertContainer"></div>
 	</div>
 </template>
 
-<script>
+<script scoped>
+  import axios from 'axios'
+  // import jQuery from 'jquery'
     export default {
         name: 'TunnelList',
         props:{
@@ -78,10 +81,40 @@
         },
       methods: {
         handleEdit(index, row) {
-          console.log(index, row);
+          this.$emit('upDateList');
         },
-        handleDelete(index, row) {
-          console.log(index, row);
+        handleDelete (index, row) {
+          jQuery.confirm({
+            container:'.alertContainer',
+            theme:'material',
+            boxWidth:"7rem",
+            // icon: 'apple-alt',
+            title: 'Alert!',
+            content: 'Delete the tunnel ?',
+            type: 'dark',
+            typeAnimated: true,
+            useBootstrap: false,
+            draggable:false,
+            animateFromElement: false,
+            animation:'RotateY',
+            buttons: {
+                Delete:{
+                  btnClass:'btn-red',
+                  action: (() => {
+                    axios.get("/api/deleteTunnle.php?VNI="+row.vni)
+                      .then( res => {
+                        this.$emit('upDateList');
+                      })
+                  })
+                },
+                Cancle:{
+                  btnClass:'btn-green',
+                  action:function () {
+                    return
+                  }
+                }
+            }
+          });
         },
         //修改thead的单元格css
         // headerCellStyle ({row, column, rowIndex, columnIndex}) {
@@ -94,7 +127,8 @@
         //修改tbody的单元格css
         tbodyCellStyle ({row, column, rowIndex, columnIndex}) {
           return 'padding:.2rem 0;font-size:.3rem'
-        }
+        },
+
       },
       computed:{
         filterData () {
@@ -135,24 +169,36 @@
   width: 1.5rem;
   padding: .15rem .2rem;
   font-size: .32rem;
-  background-color: #bfcbd0;
-  color: rgba(0,0,0,.6);
-  border: .01rem solid rgba(0,0,0,.15);
+  background-color: ghostwhite;
+  color: rgba(0,0,0,.5);
   border-radius: .1rem;
 }
 
+.el-table >>> .el-table__body td button:nth-child(1){
+  border: .03rem solid #648cb4;
+}
 .el-table >>> .el-table__body td button:nth-child(1):hover{
   background-color: steelblue;
   color: #ffffff;
   font-weight: bolder;
 }
-
+.el-table >>> .el-table__body td button:nth-child(2){
+  border: .03rem solid #ffb4b4;
+}
 .el-table >>> .el-table__body td button:nth-child(2):hover{
   background-color: #f26363;
   color: #ffffff;
   font-weight: bolder;
 }
 
-
+.alertContainer >>> .jconfirm{
+  top: -20% !important;
+}
+.alertContainer >>> .jconfirm-box{
+  height: 2.5rem;
+}
+.alertContainer >>> .jconfirm-content{
+  padding: .15rem 0 .15rem 0;
+}
 
 </style>

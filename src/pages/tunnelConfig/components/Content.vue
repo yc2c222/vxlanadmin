@@ -80,11 +80,28 @@
         },
       methods:{
         onSubmit () {
-          let data = JSON.stringify(this.form);
-          axios.post("/api/configTunnle.php",data, {headers: {'Content-Type': 'application/json'}}
-          )
-            .then(res => console.log(res.data))
-        }
+          let notExist = true;
+          let srcip = this.form.VtepSrcIp;
+          let destip = this.form.VtepDestIp;
+          let tunnelList = JSON.parse(sessionStorage.getItem('tunnelList'));
+
+          try{
+            tunnelList.forEach( item => {
+              if ( (item.vtepSrcIp === srcip || item.vtepSrcIp === destip) && ( item.vtepDestIp === srcip || item.vtepDestIp === destip )){
+                notExist = false;
+                throw new Error('This tunnel already exist !')
+              }
+            });
+          }catch (e) {
+            alert(e);
+          }
+          if (notExist) {
+            let data = JSON.stringify(this.form);
+            axios.post("/api/configTunnle.php",data, {headers: {'Content-Type': 'application/json'}}
+            )
+              .then(res => console.log(res.data))
+          }
+          }
       },
       mounted () {
         this.deviceList = JSON.parse(sessionStorage.getItem('deviceList'));
