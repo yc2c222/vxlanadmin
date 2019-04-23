@@ -6,7 +6,7 @@
         <device-btn :deviceList="deviceList"></device-btn>
       </div>
       <div class="function-area">
-        <topology-view v-show="isDisplay"></topology-view>
+        <topology-view v-show="isDisplay" :deviceList="deviceList" :tunnelList="tunnelList"></topology-view>
         <tunnel-list v-show="!isDisplay" :tableData="tunnelList" @upDateList="upDateList"></tunnel-list>
       </div>
     </div>
@@ -74,14 +74,24 @@
   .home-body{
     display: flex;
   }
-
+  .header{
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+  }
   .device-area{
+    /*position: fixed;*/
     width: 13%;
     margin-right: 3%;
     z-index: 2;
+    margin-top: 1.1rem;
+    /*overflow-y:scroll;*/
+    /*max-height: 10rem;*/
   }
 
   .function-area{
+    margin-top: 1.5rem;
+    /*margin-left: 16%;*/
     width: 84%;
   }
 

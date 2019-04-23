@@ -54,6 +54,9 @@
         </el-form-item>
       </div>
     </el-form>
+    <div class="alertContainer" id="alert1"></div>
+    <div class="alertContainer" id="alert2"></div>
+    <div class="alertContainer" id="alert3"></div>
 	</div>
 </template>
 
@@ -84,7 +87,7 @@
           let srcip = this.form.VtepSrcIp;
           let destip = this.form.VtepDestIp;
           let tunnelList = JSON.parse(sessionStorage.getItem('tunnelList'));
-
+          //若本地存储的sessionStorage中已经存在一条二元相同的tunnel，则不允许再次建立
           try{
             tunnelList.forEach( item => {
               if ( (item.vtepSrcIp === srcip || item.vtepSrcIp === destip) && ( item.vtepDestIp === srcip || item.vtepDestIp === destip )){
@@ -92,16 +95,50 @@
                 throw new Error('This tunnel already exist !')
               }
             });
-          }catch (e) {
-            alert(e);
+          }catch (err) {
+            jQuery.alert({
+              container:'#alert1',
+              boxWidth:"7rem",
+              // icon: 'apple-alt',
+              title: 'Error !',
+              content: err.message,
+              type: 'orange',
+              useBootstrap: false,
+              draggable:false,
+            });
           }
           if (notExist) {
             let data = JSON.stringify(this.form);
             axios.post("/api/configTunnle.php",data, {headers: {'Content-Type': 'application/json'}}
             )
-              .then(res => console.log(res.data))
+              .then(res => {
+                if (res.status === 200 && res.data){
+                  jQuery.alert({
+                    container:'#alert2',
+                    boxWidth:"7rem",
+                    // icon: 'apple-alt',
+                    title: 'Complete !',
+                    content: res.data,
+                    type: 'green',
+                    useBootstrap: false,
+                    draggable:false,
+                  });
+                }
+              })
+              .catch(err => {
+                jQuery.alert({
+                  container:'#alert3',
+                  boxWidth:"7rem",
+                  // icon: 'apple-alt',
+                  title: 'Error !',
+                  content: err.message,
+                  type: 'red',
+                  useBootstrap: false,
+                  draggable:false,
+                });
+              })
           }
-          }
+        }
       },
       mounted () {
         this.deviceList = JSON.parse(sessionStorage.getItem('deviceList'));
@@ -165,6 +202,16 @@
   }
   .el-form-item >>> .el-button:hover{
     background: #3b82b2;
+  }
+
+  .alertContainer >>> .jconfirm{
+    top: -20% !important;
+  }
+  .alertContainer >>> .jconfirm-box{
+    height: 2.5rem;
+  }
+  .alertContainer >>> .jconfirm-content{
+    padding: .15rem 0 .15rem 0;
   }
 
 </style>
