@@ -1,6 +1,24 @@
 <template>
 	<div class="topology">
     <canvas class="canvas"></canvas>
+    <div class="button-group">
+      <el-switch
+        style="display: block"
+        v-model="value1"
+        active-color="#13ce66"
+        inactive-color="#ff4949"
+        active-text="Link visibility"
+      >
+      </el-switch>
+      <el-switch
+        style="display: block"
+        v-model="value2"
+        active-color="#13ce66"
+        inactive-color="#ff4949"
+        active-text="Tunnel visibility"
+      >
+      </el-switch>
+    </div>
 	</div>
 </template>
 
@@ -11,7 +29,10 @@
             return {
               stage:Object,
               scene:Object,
-              links:Array
+              links:Array,
+              realLinks:Array,
+              value1:true,
+              value2:true
             }
         },
       props:{
@@ -35,6 +56,7 @@
           let nodes = [];                       //存放node对象
           let nodesIP = [];                     //存放node对应的ip
           let links = [];                       //存放link对象
+          let realLinks = [];                   //存放设备与控制器间的连接
           let linksnodes = [];                  //存放所有非空闲的node对象
           let r = 300;                          //中心圆的半径
           let n = this.deviceList.length;       //中心圆的节点数
@@ -62,16 +84,19 @@
             node.fillColor = '55, 138, 206';
             node.setLocation(x,y);
             node.shadow = true;
+            node.ip = ip;
+            node.id = item.id;
             scene.add(node);
             mouseHover(node,'IP: '+ip);
             nodes.push(node);
             nodesIP.push(ip);
-            node.ip = ip;
+
           });
 
           //link between controller and node
           nodes.forEach( ( item,index) => {
-            let link = newLink(centerNode,item,'openflow: '+(item.id+1),'',null,'');
+            let link = newLink(centerNode,item,'openflow: '+(item.id),'100,100,100',null,'');
+            realLinks.push(link);
             scene.add(link);
           });
 
@@ -79,32 +104,12 @@
           this.tunnelList.forEach( (item,index) => {
             let indexSrc = nodesIP.indexOf(item.vtepSrcIp);
             let indexDes = nodesIP.indexOf(item.vtepDestIp);
-            let link = newLink(nodes[indexSrc],nodes[indexDes],"VNI: "+ item.vni,'',10,'3');
+            let link = newLink(nodes[indexSrc],nodes[indexDes],"VNI: "+ item.vni,'',null,'4');
             links.push(link);
           });
+          this.realLinks = realLinks;
           this.links = links;
           this.scene = scene;
-          return stage;
-
-          // for (let i = 0;i<elementTun.length;i++){
-          //   let linkitem = $(".tableitem").eq(i).children();
-          //   let index1 = nodesIP.indexOf(linkitem.eq(1).text());
-          //   let index2 = nodesIP.indexOf(linkitem.eq(2).text());
-          //   let linkindex = linkitem.eq(0).text();
-          //   if (linksnodes.indexOf(nodes[index1])>-1 && linksnodes.indexOf(nodes[index2])>-1) {  //双向线段时防止错乱
-          //     if (linksnodes.indexOf(nodes[index1])<linksnodes.indexOf(nodes[index2])) {
-          //       var link = new newLink(nodes[index1],nodes[index2],'VNI: '+linkindex,'',10);
-          //     }else {
-          //       var link = new newLink(nodes[index2],nodes[index1],'VNI: '+linkindex,'',10);
-          //     }
-          //   }else {
-          //     var link = new newLink(nodes[index1],nodes[index2],'VNI: '+linkindex,'',10);
-          //   }
-          //   links.push(link);
-          //   linksnodes.push(nodes[index1]);
-          //   linksnodes.push(nodes[index2]);
-          // }
-
 
           function newLink(node1,node2,text,color,dashedPattern,width) {
             let link = new JTopo.Link(node1,node2,text);
@@ -143,6 +148,17 @@
             })
           }
         },
+        hideLinks (val) {
+          this.realLinks.forEach( item => {
+            item.visible = val;
+          });
+        },
+        hideTunnles (val) {
+          this.links.forEach( item => {
+            item.visible = val;
+          })
+        },
+
       },
       mounted() {
         setTimeout(() => {
@@ -156,12 +172,6 @@
 
           this.drawCanvas(this.stage);
         },1000);
-        // setTimeout(() => {
-        //   // this.scene.remove(this.links[0]);
-        //   this.stage.clear();
-        //   this.drawCanvas(this.stage)
-        // },7000);
-
       },
       watch: {
           deviceList: {
@@ -169,19 +179,23 @@
             setTimeout(() => {
               this.stage.clear();
               this.drawCanvas(this.stage);
-              console.log('device change');
             },2000)
           }
         },
-        tunnelList: {
-          handler: function (val,oldVal) {
-            setTimeout(() => {
-              this.stage.clear();
-              this.drawCanvas(this.stage);
-              console.log('tunnel change');
-            },1500)
+          tunnelList: {
+            handler: function (val,oldVal) {
+              setTimeout(() => {
+                this.stage.clear();
+                this.drawCanvas(this.stage);
+              },1500)
+            }
+          },
+          value1: function (val,oldVal) {
+                this.hideLinks(val);
+          },
+          value2: function (val,oldVal) {
+                this.hideTunnles(val);
           }
-        }
       }
 
     }
@@ -189,10 +203,20 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div{
+.topology{
   width: 99%;
   height: 17.5rem;
-  border: darkviolet .2rem solid ;
+  margin-top: .3rem;
   background-color: #ebebeb;
+}
+
+.button-group{
+  position: absolute;
+  top:2rem;
+  right: .5rem;
+}
+
+.el-switch{
+  margin-top: .2rem;
 }
 </style>
